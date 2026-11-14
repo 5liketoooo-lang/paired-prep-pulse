@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Partner data sharing is enforced in the database: every user table's SELECT policy allows `auth.uid()` or `public.get_partner_id()`, writes are owner-only. Why: the couple must see each other's data but never edit it.
+- `profiles.partner_id` is not client-writable (column-level UPDATE grants); pairing only goes through the `link_partner` / `unlink_partner` RPCs. Why: a writable partner_id would let anyone read any user's data.
+- The stopwatch state lives on the profile row (`active_subject`, `active_started_at`, `active_accumulated_seconds`), not in local storage. Why: survives refresh/device switch and lets the partner see live status via realtime.
+- YKS exam rules (sections, question counts, net = correct − wrong/4) live only in `src/lib/yks.ts` with tests in `src/lib/yks.test.ts`. Why: one source of truth for net math.
+- Themes are `[data-theme="<id>"]` blocks in `src/styles.css`, chosen per device (localStorage) and applied pre-paint by a head script. Theme previews reuse the same tokens by setting `data-theme` on a wrapper. Why: components stay token-only.

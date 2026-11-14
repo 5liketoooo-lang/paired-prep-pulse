@@ -10,33 +10,94 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAyarlarRouteImport } from './routes/_authenticated/ayarlar'
+import { Route as AuthenticatedBugunRouteImport } from './routes/_authenticated/bugun'
+import { Route as AuthenticatedDenemelerRouteImport } from './routes/_authenticated/denemeler'
+import { Route as AuthenticatedTakvimRouteImport } from './routes/_authenticated/takvim'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAyarlarRoute = AuthenticatedAyarlarRouteImport.update({
+  id: '/ayarlar',
+  path: '/ayarlar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBugunRoute = AuthenticatedBugunRouteImport.update({
+  id: '/bugun',
+  path: '/bugun',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDenemelerRoute = AuthenticatedDenemelerRouteImport.update({
+  id: '/denemeler',
+  path: '/denemeler',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
+  id: '/takvim',
+  path: '/takvim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/ayarlar': typeof AuthenticatedAyarlarRoute
+  '/bugun': typeof AuthenticatedBugunRoute
+  '/denemeler': typeof AuthenticatedDenemelerRoute
+  '/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/ayarlar': typeof AuthenticatedAyarlarRoute
+  '/bugun': typeof AuthenticatedBugunRoute
+  '/denemeler': typeof AuthenticatedDenemelerRoute
+  '/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/ayarlar': typeof AuthenticatedAyarlarRoute
+  '/_authenticated/bugun': typeof AuthenticatedBugunRoute
+  '/_authenticated/denemeler': typeof AuthenticatedDenemelerRoute
+  '/_authenticated/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/auth' | '/ayarlar' | '/bugun' | '/denemeler' | '/takvim'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/auth' | '/ayarlar' | '/bugun' | '/denemeler' | '/takvim'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/ayarlar'
+    | '/_authenticated/bugun'
+    | '/_authenticated/denemeler'
+    | '/_authenticated/takvim'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +109,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/ayarlar': {
+      id: '/_authenticated/ayarlar'
+      path: '/ayarlar'
+      fullPath: '/ayarlar'
+      preLoaderRoute: typeof AuthenticatedAyarlarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bugun': {
+      id: '/_authenticated/bugun'
+      path: '/bugun'
+      fullPath: '/bugun'
+      preLoaderRoute: typeof AuthenticatedBugunRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/denemeler': {
+      id: '/_authenticated/denemeler'
+      path: '/denemeler'
+      fullPath: '/denemeler'
+      preLoaderRoute: typeof AuthenticatedDenemelerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/takvim': {
+      id: '/_authenticated/takvim'
+      path: '/takvim'
+      fullPath: '/takvim'
+      preLoaderRoute: typeof AuthenticatedTakvimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAyarlarRoute: typeof AuthenticatedAyarlarRoute
+  AuthenticatedBugunRoute: typeof AuthenticatedBugunRoute
+  AuthenticatedDenemelerRoute: typeof AuthenticatedDenemelerRoute
+  AuthenticatedTakvimRoute: typeof AuthenticatedTakvimRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAyarlarRoute: AuthenticatedAyarlarRoute,
+  AuthenticatedBugunRoute: AuthenticatedBugunRoute,
+  AuthenticatedDenemelerRoute: AuthenticatedDenemelerRoute,
+  AuthenticatedTakvimRoute: AuthenticatedTakvimRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
