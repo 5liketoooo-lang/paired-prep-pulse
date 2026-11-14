@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedBugunRouteImport } from './routes/_authenticated/bugun'
+import { Route as AuthenticatedDenemelerRouteImport } from './routes/_authenticated/denemeler'
 import { Route as AuthenticatedTakvimRouteImport } from './routes/_authenticated/takvim'
 
 const IndexRoute = IndexRouteImport.update({
@@ -28,6 +29,11 @@ const AuthenticatedBugunRoute = AuthenticatedBugunRouteImport.update({
   path: '/bugun',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDenemelerRoute = AuthenticatedDenemelerRouteImport.update({
+  id: '/denemeler',
+  path: '/denemeler',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
   id: '/takvim',
   path: '/takvim',
@@ -37,11 +43,13 @@ const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bugun': typeof AuthenticatedBugunRoute
+  '/denemeler': typeof AuthenticatedDenemelerRoute
   '/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bugun': typeof AuthenticatedBugunRoute
+  '/denemeler': typeof AuthenticatedDenemelerRoute
   '/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRoutesById {
@@ -49,18 +57,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/bugun': typeof AuthenticatedBugunRoute
+  '/_authenticated/denemeler': typeof AuthenticatedDenemelerRoute
   '/_authenticated/takvim': typeof AuthenticatedTakvimRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bugun' | '/takvim'
+  fullPaths: '/' | '/bugun' | '/denemeler' | '/takvim'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bugun' | '/takvim'
+  to: '/' | '/bugun' | '/denemeler' | '/takvim'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_authenticated/bugun'
+    | '/_authenticated/denemeler'
     | '/_authenticated/takvim'
   fileRoutesById: FileRoutesById
 }
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBugunRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/denemeler': {
+      id: '/_authenticated/denemeler'
+      path: '/denemeler'
+      fullPath: '/denemeler'
+      preLoaderRoute: typeof AuthenticatedDenemelerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/takvim': {
       id: '/_authenticated/takvim'
       path: '/takvim'
@@ -104,11 +121,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedBugunRoute: typeof AuthenticatedBugunRoute
+  AuthenticatedDenemelerRoute: typeof AuthenticatedDenemelerRoute
   AuthenticatedTakvimRoute: typeof AuthenticatedTakvimRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBugunRoute: AuthenticatedBugunRoute,
+  AuthenticatedDenemelerRoute: AuthenticatedDenemelerRoute,
   AuthenticatedTakvimRoute: AuthenticatedTakvimRoute,
 }
 
