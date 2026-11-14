@@ -21,7 +21,7 @@ export const DEFAULT_THEME = "kiraz";
 export const THEME_STORAGE_KEY = "yks-theme";
 
 export function applyTheme(id: string) {
-  document.documentElement.dataset.theme = id;
+  document.documentElement.dataset["theme"] = id;
   try {
     localStorage.setItem(THEME_STORAGE_KEY, id);
   } catch {

@@ -28,7 +28,7 @@ export function ExamDialog({ defaultType }: { defaultType: ExamType }) {
 
   async function save() {
     const err = validateExam(type, results);
-    if (err) return toast.error(err);
+    if (err) { toast.error(err); return; }
     const clean: ExamResults = {};
     for (const s of EXAM_SECTIONS[type]) clean[s.key] = results[s.key] ?? { d: 0, y: 0 };
     setBusy(true);
@@ -40,7 +40,7 @@ export function ExamDialog({ defaultType }: { defaultType: ExamType }) {
       total_net: examTotalNet(type, clean),
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["exams"] });
     toast.success(`${EXAM_LABEL[type]} kaydedildi · ${examTotalNet(type, clean).toFixed(2)} net`);
     setResults({});

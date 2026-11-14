@@ -25,7 +25,7 @@ export function DayNote({ date, note, editable }: { date: string; note: DayNoteR
       .from("day_notes")
       .upsert({ note_date: date, content: value, updated_at: new Date().toISOString() }, { onConflict: "user_id,note_date" });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["day_notes", date] });
     toast.success("Not kaydedildi");
   }

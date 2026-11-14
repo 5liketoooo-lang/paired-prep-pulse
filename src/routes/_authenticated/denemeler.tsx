@@ -157,7 +157,7 @@ function ExamCard({ exam, owner, isMine }: { exam: Exam; owner: Profile | null; 
   async function remove() {
     if (!confirm("Bu denemeyi silmek istediğine emin misin?")) return;
     const { error } = await supabase.from("exams").delete().eq("id", exam.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["exams"] });
   }
 

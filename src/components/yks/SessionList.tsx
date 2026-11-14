@@ -21,7 +21,7 @@ export function SessionList({
 
   async function remove(id: string) {
     const { error } = await supabase.from("study_sessions").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["sessions"] });
   }
 

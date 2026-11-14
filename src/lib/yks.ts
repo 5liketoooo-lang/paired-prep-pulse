@@ -82,7 +82,7 @@ export function toDateKey(date: Date): string {
 
 /** "yyyy-MM-dd" → local Date at midnight (avoids UTC shifting). */
 export function fromDateKey(key: string): Date {
-  const [y, m, d] = key.split("-").map(Number);
+  const [y = 1970, m = 1, d = 1] = key.split("-").map(Number);
   return new Date(y, m - 1, d);
 }
 

@@ -233,7 +233,7 @@ function MonthStats({ sessions, exams, tone }: { sessions: StudySession[]; exams
                   <span className="text-muted-foreground">{formatDuration(secs)}</span>
                 </div>
                 <div className="mt-0.5 h-1.5 rounded-full bg-muted">
-                  <div className={cn("h-full rounded-full", bar)} style={{ width: `${(secs / subjects[0][1]) * 100}%` }} />
+                  <div className={cn("h-full rounded-full", bar)} style={{ width: `${(secs / (subjects[0]?.[1] ?? secs)) * 100}%` }} />
                 </div>
               </li>
             ))}
@@ -245,7 +245,7 @@ function MonthStats({ sessions, exams, tone }: { sessions: StudySession[]; exams
   );
 }
 
-function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
+function Stat({ label, value, sub }: { label: string; value: string; sub?: string | undefined }) {
   return (
     <div className="surface p-4">
       <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>

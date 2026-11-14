@@ -22,8 +22,8 @@ export function ManualSessionDialog({ defaultDate, trigger }: { defaultDate?: st
 
   async function save() {
     const total = (Number(hours) || 0) * 3600 + (Number(minutes) || 0) * 60;
-    if (total <= 0) return toast.error("Süre girmelisin");
-    if (total > 24 * 3600) return toast.error("Bir oturum 24 saati geçemez");
+    if (total <= 0) { toast.error("Süre girmelisin"); return; }
+    if (total > 24 * 3600) { toast.error("Bir oturum 24 saati geçemez"); return; }
     setBusy(true);
     const { error } = await supabase.from("study_sessions").insert({
       subject,
@@ -32,7 +32,7 @@ export function ManualSessionDialog({ defaultDate, trigger }: { defaultDate?: st
       note: note.trim() || null,
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["sessions"] });
     toast.success("Çalışma eklendi");
     setNote("");

@@ -43,15 +43,15 @@ function SettingsPage() {
   }, [me?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setTheme(document.documentElement.dataset.theme ?? DEFAULT_THEME);
+    setTheme(document.documentElement.dataset["theme"] ?? DEFAULT_THEME);
   }, []);
 
   if (isLoading || !me) return <PageSkeleton />;
 
   async function saveProfile() {
     const minutes = Math.round((Number(goalHours) || 0) * 60);
-    if (!name.trim()) return toast.error("İsim boş olamaz");
-    if (minutes < 30 || minutes > 16 * 60) return toast.error("Hedef 0,5 ile 16 saat arasında olmalı");
+    if (!name.trim()) { toast.error("İsim boş olamaz"); return; }
+    if (minutes < 30 || minutes > 16 * 60) { toast.error("Hedef 0,5 ile 16 saat arasında olmalı"); return; }
     try {
       await updateMyProfile(qc, me!.id, { display_name: name.trim(), daily_goal_minutes: minutes });
       toast.success("Profil güncellendi");
@@ -63,7 +63,7 @@ function SettingsPage() {
   async function link() {
     if (!code.trim()) return;
     const { error } = await supabase.rpc("link_partner", { _code: code.trim() });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setCode("");
     await qc.invalidateQueries();
     toast.success("Eşleştiniz! 💞");
@@ -72,7 +72,7 @@ function SettingsPage() {
   async function unlink() {
     if (!confirm("Eşleşmeyi kaldırmak istediğine emin misin?")) return;
     const { error } = await supabase.rpc("unlink_partner");
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await qc.invalidateQueries();
     toast.success("Eşleşme kaldırıldı");
   }
