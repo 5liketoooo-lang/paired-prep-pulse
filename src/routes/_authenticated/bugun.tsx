@@ -7,6 +7,7 @@ import { GoalCard, PartnerLive } from "@/components/yks/PartnerLive";
 import { SessionList } from "@/components/yks/SessionList";
 import { ManualSessionDialog } from "@/components/yks/ManualSessionDialog";
 import { WeekChart } from "@/components/yks/WeekChart";
+import { PageSkeleton } from "@/components/yks/PageSkeleton";
 import { formatDuration, toDateKey } from "@/lib/yks";
 
 export const Route = createFileRoute("/_authenticated/bugun")({
@@ -76,15 +77,6 @@ function TodayPage() {
         <p className="mb-4 text-sm text-muted-foreground">Günlük çalışma saatleri</p>
         <WeekChart sessions={sessions} meId={me.id} partnerId={partner?.id ?? null} meName={me.display_name} partnerName={partner?.display_name ?? null} />
       </section>
-    </div>
-  );
-}
-
-export function PageSkeleton() {
-  return (
-    <div className="grid gap-6">
-      <div className="h-10 w-64 animate-pulse rounded-xl bg-muted" />
-      <div className="h-96 animate-pulse rounded-3xl bg-muted" />
     </div>
   );
 }
