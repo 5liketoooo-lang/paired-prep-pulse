@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useRouteContext } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
@@ -116,13 +116,6 @@ export function useLiveSync() {
 }
 
 export function useNow(active: boolean, intervalMs = 1000) {
-  const qc = useQueryClient();
-  void qc;
-  return useTick(active, intervalMs);
-}
-
-import { useState } from "react";
-function useTick(active: boolean, intervalMs: number) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (!active) return;
