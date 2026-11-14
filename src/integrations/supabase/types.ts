@@ -14,13 +14,148 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      day_notes: {
+        Row: {
+          content: string
+          id: string
+          note_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          id?: string
+          note_date: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          content?: string
+          id?: string
+          note_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      exams: {
+        Row: {
+          created_at: string
+          exam_date: string
+          exam_type: string
+          id: string
+          note: string | null
+          results: Json
+          title: string | null
+          total_net: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          exam_date?: string
+          exam_type: string
+          id?: string
+          note?: string | null
+          results?: Json
+          title?: string | null
+          total_net?: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          exam_date?: string
+          exam_type?: string
+          id?: string
+          note?: string | null
+          results?: Json
+          title?: string | null
+          total_net?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          active_accumulated_seconds: number
+          active_started_at: string | null
+          active_subject: string | null
+          created_at: string
+          daily_goal_minutes: number
+          display_name: string
+          id: string
+          pair_code: string
+          partner_id: string | null
+        }
+        Insert: {
+          active_accumulated_seconds?: number
+          active_started_at?: string | null
+          active_subject?: string | null
+          created_at?: string
+          daily_goal_minutes?: number
+          display_name?: string
+          id: string
+          pair_code?: string
+          partner_id?: string | null
+        }
+        Update: {
+          active_accumulated_seconds?: number
+          active_started_at?: string | null
+          active_subject?: string | null
+          created_at?: string
+          daily_goal_minutes?: number
+          display_name?: string
+          id?: string
+          pair_code?: string
+          partner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_sessions: {
+        Row: {
+          created_at: string
+          duration_seconds: number
+          id: string
+          note: string | null
+          session_date: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds: number
+          id?: string
+          note?: string | null
+          session_date?: string
+          subject: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number
+          id?: string
+          note?: string | null
+          session_date?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_partner_id: { Args: never; Returns: string }
+      link_partner: { Args: { _code: string }; Returns: string }
+      unlink_partner: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
