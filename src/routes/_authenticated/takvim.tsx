@@ -180,7 +180,7 @@ function MonthGrid({
               )}
             >
               <span className="text-xs font-bold md:text-sm">{format(d, "d")}</span>
-              {secs > 0 && <span className="hidden font-clock text-[11px] font-semibold sm:block">{(secs / 3600).toFixed(1)}s</span>}
+              {secs > 0 && <span className="hidden font-clock text-[11px] font-semibold sm:block">{secs < 3600 ? `${Math.round(secs / 60)}dk` : `${(secs / 3600).toFixed(1)}sa`}</span>}
               {examDays.has(key) && (
                 <span className="absolute right-1.5 top-1.5 rounded-full bg-chart-4 px-1 text-[9px] font-bold text-foreground md:text-[10px]">D</span>
               )}
